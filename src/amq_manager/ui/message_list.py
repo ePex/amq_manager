@@ -27,7 +27,7 @@ class MessageListScreen(Screen):
         yield Header()
         yield Static(f"Messages in Queue: {self.queue_name}", id="title")
         yield DataTable(cursor_type="row")
-        yield Input(placeholder="Filter by JMSType...", id="filter")
+        yield Input(placeholder="Filter by ID, Date, or Type...", id="filter")
         yield Footer()
 
     def on_mount(self) -> None:
@@ -66,8 +66,14 @@ class MessageListScreen(Screen):
             redelivered = str(msg.get("JMSRedelivered", ""))
             jms_type = str(msg.get("JMSType", ""))
             
-            if filter_text and filter_text not in jms_type.lower():
-                continue
+            # Filter across multiple fields: ID, Timestamp, Type
+            if filter_text:
+                id_match = filter_text in msg_id.lower()
+                timestamp_match = filter_text in str(timestamp).lower()
+                type_match = filter_text in jms_type.lower()
+                
+                if not (id_match or timestamp_match or type_match):
+                    continue
             
             table.add_row(msg_id, str(timestamp), priority, redelivered, jms_type, key=msg_id)
             self.messages_map[msg_id] = msg

@@ -12,7 +12,7 @@ A Terminal User Interface (TUI) tool for managing ActiveMQ brokers. This tool al
     - **Move**: Move messages from one queue to another (e.g., for reprocessing DLQ messages).
 - **Multi-Connection Support**: Manage and switch between multiple brokers (Local, AWS, etc.) at runtime.
 - **Secure Connections**: Support for HTTPS/SSL connections.
-- **Filtering**: Quickly find queues (by name) or messages (by type) using the `/` hotkey.
+- **Filtering**: Quickly find queues (by name) or messages (by ID, date, or type) using the `/` hotkey.
 - **Logging**: Built-in log viewer to diagnose issues.
 - **Cross-Platform**: Runs on any system with Python support.
 
