@@ -68,6 +68,13 @@ class MessageDetailScreen(Screen):
         msg_id = self.message.get("JMSMessageID")
         if client.delete_message(msg_id, self.queue_name):
             self.app.pop_screen()
+            # Refresh the message list
+            try:
+                message_list_screen = self.app.screen_stack[-1]
+                if hasattr(message_list_screen, 'load_messages'):
+                    message_list_screen.load_messages()
+            except:
+                pass
             self.notify("Message deleted")
         else:
             self.notify("Failed to delete message", severity="error")
@@ -78,6 +85,13 @@ class MessageDetailScreen(Screen):
         def check_move(moved: bool) -> None:
             if moved:
                 self.app.pop_screen()
+                # Refresh the message list
+                try:
+                    message_list_screen = self.app.screen_stack[-1]
+                    if hasattr(message_list_screen, 'load_messages'):
+                        message_list_screen.load_messages()
+                except:
+                    pass
                 self.notify("Message moved")
 
         self.app.push_screen(MoveMessageModal(msg_id, self.queue_name), check_move)

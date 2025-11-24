@@ -213,3 +213,19 @@ class MessageListScreen(Screen):
         self.load_messages()
         self.notify("Messages refreshed")
 
+    def on_screen_resume(self) -> None:
+        # Refresh queue list when returning from message detail screen
+        try:
+            # Get the queue list from the main screen
+            for screen in self.app.screen_stack:
+                if hasattr(screen, 'query_one'):
+                    try:
+                        from amq_manager.ui.app import QueueList
+                        queue_list = screen.query_one(QueueList)
+                        queue_list.refresh_queues()
+                        break
+                    except:
+                        continue
+        except:
+            pass
+
