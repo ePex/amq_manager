@@ -54,7 +54,8 @@ class MessageDetailScreen(Screen):
             app.active_config.port,
             app.active_config.user,
             app.active_config.password,
-            app.active_config.ssl
+            app.active_config.ssl,
+            app.active_config.context_path
         )
         msg_id = self.message.get("JMSMessageID")
         if client.delete_message(msg_id, self.queue_name):

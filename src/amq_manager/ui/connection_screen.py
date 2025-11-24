@@ -45,6 +45,7 @@ class ConnectionEditor(ModalScreen):
             Input(placeholder="Port", value=str(self.config.port) if self.config else "8161", id="port", type="integer"),
             Input(placeholder="User", value=self.config.user if self.config else "admin", id="user"),
             Input(placeholder="Password", value=self.config.password if self.config else "admin", id="password", password=True),
+            Input(placeholder="API Path", value=self.config.context_path if self.config else "/api/jolokia", id="path"),
             Checkbox("Use SSL", value=self.config.ssl if self.config else False, id="ssl"),
             Checkbox("Default", value=self.config.is_default if self.config else False, id="default"),
             Horizontal(
@@ -65,10 +66,11 @@ class ConnectionEditor(ModalScreen):
         port = int(self.query_one("#port", Input).value)
         user = self.query_one("#user", Input).value
         password = self.query_one("#password", Input).value
+        path = self.query_one("#path", Input).value
         ssl = self.query_one("#ssl", Checkbox).value
         is_default = self.query_one("#default", Checkbox).value
 
-        new_config = ConnectionConfig(name, host, port, user, password, is_default, ssl)
+        new_config = ConnectionConfig(name, host, port, user, password, is_default, ssl, path)
         self.dismiss(new_config)
 
 class ConnectionScreen(Screen):

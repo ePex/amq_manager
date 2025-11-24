@@ -30,7 +30,8 @@ class QueueList(Static):
             app.active_config.port,
             app.active_config.user,
             app.active_config.password,
-            app.active_config.ssl
+            app.active_config.ssl,
+            app.active_config.context_path
         )
         try:
             queues = client.list_queues()

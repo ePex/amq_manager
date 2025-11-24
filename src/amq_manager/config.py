@@ -15,6 +15,7 @@ class ConnectionConfig:
     password: str
     is_default: bool = False
     ssl: bool = False
+    context_path: str = "/api/jolokia"
 
 class ConfigManager:
     def __init__(self):
@@ -25,7 +26,7 @@ class ConfigManager:
         if not os.path.exists(CONFIG_FILE):
             # Create default config
             self.connections = [
-                ConnectionConfig("Local", "localhost", 8161, "admin", "admin", True, False)
+                ConnectionConfig("Local", "localhost", 8161, "admin", "admin", True, False, "/api/jolokia")
             ]
             self.save_config()
             return

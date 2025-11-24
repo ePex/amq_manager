@@ -27,3 +27,6 @@
     - [x] Implement File Logging (amq_manager.log) <!-- id: 18 -->
     - [x] Create Log Viewer Screen <!-- id: 19 -->
     - [x] Integrate Logging into Client and App <!-- id: 20 -->
+- [x] Configurable Jolokia Path
+    - [x] Add context_path to Config and UI <!-- id: 21 -->
+    - [x] Update Client to use custom path <!-- id: 22 -->
