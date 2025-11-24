@@ -29,6 +29,7 @@ class MessageListScreen(Screen):
         self.messages_map = {}
         self.messages_data = []
         self.selected_messages = set()  # Track selected message IDs
+        self.current_filter = ""  # Track active filter
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -91,6 +92,7 @@ class MessageListScreen(Screen):
             self.messages_map[msg_id] = msg
         
         self.update_selection_status()
+        self.update_title(filter_text)
 
     def on_input_changed(self, event: Input.Changed) -> None:
         self.update_table(event.value)
@@ -120,6 +122,17 @@ class MessageListScreen(Screen):
             status.update(f"✓ {count} message{'s' if count != 1 else ''} selected")
         else:
             status.update("")
+
+    def update_title(self, filter_text: str = "") -> None:
+        title = self.query_one("#title", Static)
+        total = len(self.messages_data)
+        visible = len(self.messages_map)
+        
+        if filter_text:
+            title.update(f"Messages in Queue: {self.queue_name} - {visible}/{total} (filtering)")
+        else:
+            msg_word = "message" if total == 1 else "messages"
+            title.update(f"Messages in Queue: {self.queue_name} - {total} {msg_word}")
 
     def action_toggle_selection(self) -> None:
         table = self.query_one(DataTable)
