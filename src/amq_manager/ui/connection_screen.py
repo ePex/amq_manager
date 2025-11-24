@@ -2,6 +2,7 @@ from textual.app import ComposeResult
 from textual.screen import Screen, ModalScreen
 from textual.widgets import Header, Footer, DataTable, Button, Input, Label, Checkbox
 from textual.containers import Grid, Container, Horizontal
+from textual.binding import Binding
 from amq_manager.config import ConfigManager, ConnectionConfig
 
 class ConnectionEditor(ModalScreen):
@@ -102,7 +103,11 @@ class ConnectionScreen(Screen):
         ("e", "edit_connection", "Edit"),
         ("d", "delete_connection", "Delete"),
         ("enter", "select_connection", "Select"),
+        Binding("/", "noop", "", show=False),
     ]
+
+    def action_noop(self) -> None:
+        pass
 
     def compose(self) -> ComposeResult:
         yield Header()
