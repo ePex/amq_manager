@@ -77,7 +77,8 @@ class BatchMoveModal(ModalScreen):
         )
         try:
             queues = client.list_queues()
-            self.all_queues = [q.get("Name", "") for q in queues if q.get("Name")]
+            # Exclude the source queue from suggestions
+            self.all_queues = [q.get("Name", "") for q in queues if q.get("Name") and q.get("Name") != self.source_queue]
             self.update_suggestions("")
         except Exception:
             pass
@@ -126,8 +127,14 @@ class BatchMoveModal(ModalScreen):
 
     def action_move(self) -> None:
         target_queue = self.query_one("#target_queue", Input).value
-        if target_queue:
-            self.move_messages(target_queue)
+        if not target_queue:
+            return
+        
+        if target_queue == self.source_queue:
+            self.notify("Cannot move messages to the same queue", severity="warning")
+            return
+        
+        self.move_messages(target_queue)
 
     def move_messages(self, target_queue: str) -> None:
         app = self.app
