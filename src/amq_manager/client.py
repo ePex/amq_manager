@@ -1,12 +1,16 @@
 import requests
 from requests.auth import HTTPBasicAuth
 from typing import List, Dict, Any, Optional
+import logging
+
+logger = logging.getLogger(__name__)
 
 class ActiveMQClient:
-    def __init__(self, host: str, port: int, user: str, password: str, timeout: int = 5):
-        self.base_url = f"http://{host}:{port}/api/jolokia"
+    def __init__(self, host: str, port: int, user: str, password: str, ssl: bool = False, timeout: int = 5):
+        scheme = "https" if ssl else "http"
+        self.base_url = f"{scheme}://{host}:{port}/api/jolokia"
         self.auth = HTTPBasicAuth(user, password)
-        self.headers = {"Origin": f"http://{host}"}
+        self.headers = {"Origin": f"{scheme}://{host}"}
         self.timeout = timeout
 
     def list_queues(self) -> List[Dict[str, Any]]:
@@ -17,26 +21,24 @@ class ActiveMQClient:
             "type": "read",
             "mbean": "org.apache.activemq:type=Broker,brokerName=localhost,destinationType=Queue,destinationName=*"
         }
-        try:
-            response = requests.post(self.base_url, json=payload, auth=self.auth, headers=self.headers, timeout=self.timeout)
-            response.raise_for_status()
-            data = response.json()
-            
-            if data.get("status") != 200:
-                raise Exception(f"Jolokia error: {data.get('status')}")
-            
-            queues = []
-            value = data.get("value", {})
-            for key, stats in value.items():
-                # Extract queue name from the key or stats
-                # Key format: org.apache.activemq:brokerName=localhost,destinationName=...,destinationType=Queue,type=Broker
-                queue_name = stats.get("Name")
-                queues.append(stats)
-            
-            return queues
-        except Exception as e:
-            print(f"Error listing queues: {e}")
-            return []
+        # Let exceptions propagate to the UI
+        response = requests.post(self.base_url, json=payload, auth=self.auth, headers=self.headers, timeout=self.timeout)
+        response.raise_for_status()
+        data = response.json()
+        
+        if data.get("status") != 200:
+            logger.error(f"Jolokia error listing queues: {data.get('status')}")
+            raise Exception(f"Jolokia error: {data.get('status')}")
+        
+        queues = []
+        value = data.get("value", {})
+        for key, stats in value.items():
+            # Extract queue name from the key or stats
+            # Key format: org.apache.activemq:brokerName=localhost,destinationName=...,destinationType=Queue,type=Broker
+            queue_name = stats.get("Name")
+            queues.append(stats)
+        
+        return queues
 
     def browse_messages(self, queue_name: str) -> List[Dict[str, Any]]:
         """

@@ -58,7 +58,8 @@ class MoveMessageModal(ModalScreen):
             app.active_config.host,
             app.active_config.port,
             app.active_config.user,
-            app.active_config.password
+            app.active_config.password,
+            app.active_config.ssl
         )
         if client.move_message(self.message_id, self.source_queue, target_queue):
             self.dismiss(True)

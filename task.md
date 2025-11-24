@@ -23,3 +23,7 @@
     - [x] Implement Connection Screen (Add/Edit/Select connections) <!-- id: 15 -->
     - [x] Refactor Client to support dynamic connections <!-- id: 16 -->
     - [x] Implement Runtime Switching <!-- id: 17 -->
+- [x] Logging & Error Handling
+    - [x] Implement File Logging (amq_manager.log) <!-- id: 18 -->
+    - [x] Create Log Viewer Screen <!-- id: 19 -->
+    - [x] Integrate Logging into Client and App <!-- id: 20 -->

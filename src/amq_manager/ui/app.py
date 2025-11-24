@@ -5,6 +5,10 @@ from amq_manager.client import ActiveMQClient
 from amq_manager.config import ConfigManager, ConnectionConfig
 from amq_manager.ui.message_list import MessageListScreen
 from amq_manager.ui.connection_screen import ConnectionScreen
+from amq_manager.ui.log_screen import LogScreen
+import logging
+
+logger = logging.getLogger(__name__)
 
 class QueueList(Static):
     def compose(self) -> ComposeResult:
@@ -25,21 +29,31 @@ class QueueList(Static):
             app.active_config.host,
             app.active_config.port,
             app.active_config.user,
-            app.active_config.password
+            app.active_config.password,
+            app.active_config.ssl
         )
-        queues = client.list_queues()
-        table = self.query_one(DataTable)
-        table.clear()
-        
-        for q in queues:
-            table.add_row(
-                q.get("Name", "Unknown"),
-                str(q.get("QueueSize", 0)),
-                str(q.get("ConsumerCount", 0)),
-                str(q.get("EnqueueCount", 0)),
-                str(q.get("DequeueCount", 0)),
-                key=q.get("Name")
-            )
+        try:
+            queues = client.list_queues()
+            table = self.query_one(DataTable)
+            table.clear()
+            
+            for q in queues:
+                table.add_row(
+                    q.get("Name", "Unknown"),
+                    str(q.get("QueueSize", 0)),
+                    str(q.get("ConsumerCount", 0)),
+                    str(q.get("EnqueueCount", 0)),
+                    str(q.get("DequeueCount", 0)),
+                    key=q.get("Name")
+                )
+            self.app.notify(f"Refreshed {len(queues)} queues")
+            logger.info(f"Refreshed {len(queues)} queues")
+        except Exception as e:
+            error_msg = f"Error refreshing queues: {str(e)}"
+            logger.error(error_msg)
+            self.app.notify(error_msg, severity="error", timeout=10)
+            table = self.query_one(DataTable)
+            table.clear()
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
         queue_name = event.row_key.value
@@ -55,6 +69,7 @@ class ActiveMQManagerApp(App):
         ("q", "quit", "Quit"),
         ("r", "refresh", "Refresh"),
         ("c", "manage_connections", "Connections"),
+        ("l", "show_logs", "Logs"),
     ]
 
     def on_mount(self) -> None:
@@ -82,6 +97,9 @@ class ActiveMQManagerApp(App):
                 self.notify(f"Switched to {config.name}")
         
         self.push_screen(ConnectionScreen(), handle_select)
+
+    def action_show_logs(self) -> None:
+        self.push_screen(LogScreen())
 
 if __name__ == "__main__":
     app = ActiveMQManagerApp()

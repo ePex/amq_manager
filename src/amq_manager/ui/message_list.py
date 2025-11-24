@@ -32,7 +32,8 @@ class MessageListScreen(Screen):
             app.active_config.host,
             app.active_config.port,
             app.active_config.user,
-            app.active_config.password
+            app.active_config.password,
+            app.active_config.ssl
         )
         messages = client.browse_messages(self.queue_name)
         table = self.query_one(DataTable)

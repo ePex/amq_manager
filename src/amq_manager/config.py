@@ -14,6 +14,7 @@ class ConnectionConfig:
     user: str
     password: str
     is_default: bool = False
+    ssl: bool = False
 
 class ConfigManager:
     def __init__(self):
@@ -24,7 +25,7 @@ class ConfigManager:
         if not os.path.exists(CONFIG_FILE):
             # Create default config
             self.connections = [
-                ConnectionConfig("Local", "localhost", 8161, "admin", "admin", True)
+                ConnectionConfig("Local", "localhost", 8161, "admin", "admin", True, False)
             ]
             self.save_config()
             return

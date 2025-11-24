@@ -27,6 +27,7 @@ I have built a Terminal User Interface (TUI) for managing ActiveMQ brokers.
 - **Back**: Press `Esc` to go back.
 - **Refresh**: Press `r` to refresh the queue list.
 - **Connections**: Press `c` to open the Connection Manager.
+- **Logs**: Press `l` to open the Log Viewer.
 - **Delete**: Press `d` in Message Detail view to delete a message.
 - **Move**: Press `m` in Message Detail view to move a message.
 
@@ -34,6 +35,7 @@ I have built a Terminal User Interface (TUI) for managing ActiveMQ brokers.
 1. Press `c` on the main screen.
 2. Press `a` to add a new connection.
 3. Enter details (Name, Host, Port, User, Password).
-4. Press `Save`.
-5. Select the new connection and press `Enter` to switch.
+4. Check **Use SSL** if connecting to a secure broker (e.g., AWS).
+5. Press `Save`.
+6. Select the new connection and press `Enter` to switch.
 

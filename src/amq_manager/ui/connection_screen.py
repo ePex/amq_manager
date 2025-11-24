@@ -45,6 +45,7 @@ class ConnectionEditor(ModalScreen):
             Input(placeholder="Port", value=str(self.config.port) if self.config else "8161", id="port", type="integer"),
             Input(placeholder="User", value=self.config.user if self.config else "admin", id="user"),
             Input(placeholder="Password", value=self.config.password if self.config else "admin", id="password", password=True),
+            Checkbox("Use SSL", value=self.config.ssl if self.config else False, id="ssl"),
             Checkbox("Default", value=self.config.is_default if self.config else False, id="default"),
             Horizontal(
                 Button("Cancel", variant="error", id="cancel"),
@@ -64,9 +65,10 @@ class ConnectionEditor(ModalScreen):
         port = int(self.query_one("#port", Input).value)
         user = self.query_one("#user", Input).value
         password = self.query_one("#password", Input).value
+        ssl = self.query_one("#ssl", Checkbox).value
         is_default = self.query_one("#default", Checkbox).value
 
-        new_config = ConnectionConfig(name, host, port, user, password, is_default)
+        new_config = ConnectionConfig(name, host, port, user, password, is_default, ssl)
         self.dismiss(new_config)
 
 class ConnectionScreen(Screen):
@@ -86,7 +88,7 @@ class ConnectionScreen(Screen):
 
     def on_mount(self) -> None:
         table = self.query_one(DataTable)
-        table.add_columns("Name", "Host", "Port", "User", "Default")
+        table.add_columns("Name", "Host", "Port", "User", "SSL", "Default")
         self.refresh_list()
 
     def refresh_list(self) -> None:
@@ -95,7 +97,7 @@ class ConnectionScreen(Screen):
         table.clear()
         for c in config_manager.connections:
             table.add_row(
-                c.name, c.host, str(c.port), c.user, "Yes" if c.is_default else "",
+                c.name, c.host, str(c.port), c.user, "Yes" if c.ssl else "No", "Yes" if c.is_default else "",
                 key=c.name
             )
 

@@ -35,6 +35,11 @@ Build a Terminal User Interface (TUI) application to manage ActiveMQ brokers. Th
   ```
 - **Runtime Switching**: The App will hold a reference to the `current_connection` and re-initialize the `ActiveMQClient` when switched.
 
+### Logging System
+- **File**: `amq_manager.log`
+- **Format**: `YYYY-MM-DD HH:MM:SS - Logger - Level - Message`
+- **UI**: `LogScreen` (RichLog widget) to view logs within the app.
+
 ### Dependencies
 - `textual`
 - `stomp.py` (or `requests` if using Jolokia)

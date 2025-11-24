@@ -21,3 +21,7 @@ To ensure high quality and maintainability of the `amq-manager` project, please 
 
 4.  **Verification**:
     - Verify changes against a local broker (or appropriate environment) before marking a task as done.
+
+5.  **Commit Protocol**:
+    - Wait for user feedback after implementing a feature.
+    - Only commit changes if the feedback is positive.
