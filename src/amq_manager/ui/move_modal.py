@@ -31,7 +31,7 @@ class MoveMessageModal(ModalScreen):
         margin-bottom: 1;
     }
     OptionList {
-        max-height: 10;
+        height: 20;
         margin-bottom: 1;
     }
     Grid {
@@ -89,8 +89,21 @@ class MoveMessageModal(ModalScreen):
         filter_text = filter_text.lower()
         matching_queues = [q for q in self.all_queues if filter_text in q.lower()]
         
-        for queue in matching_queues[:10]:  # Limit to 10 suggestions
-            option_list.add_option(Option(queue, id=queue))
+        # Smart DLQ sorting: if source is a DLQ, prioritize the original queue
+        if self.source_queue.lower().startswith("dlq."):
+            original_queue = self.source_queue[4:]  # Remove "dlq." or "DLQ." prefix
+            matching_queues.sort(key=lambda q: (q != original_queue, q.lower()))
+            
+            # Add queues with visual highlighting for the original queue
+            for queue in matching_queues:
+                if queue == original_queue:
+                    option_list.add_option(Option(f"⭐ {queue}", id=queue))
+                else:
+                    option_list.add_option(Option(queue, id=queue))
+        else:
+            matching_queues.sort(key=lambda q: q.lower())
+            for queue in matching_queues:
+                option_list.add_option(Option(queue, id=queue))
 
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "target_queue":
@@ -108,11 +121,19 @@ class MoveMessageModal(ModalScreen):
             if option_list.option_count > 0:
                 option_list.focus()
                 event.prevent_default()
+        # Allow Tab to navigate out of the OptionList
+        elif event.key == "tab":
+            option_list = self.query_one("#queue_suggestions", OptionList)
+            if option_list.has_focus:
+                # Move focus back to input field
+                self.query_one("#target_queue", Input).focus()
+                event.prevent_default()
 
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
         # Set the selected queue name in the input and refocus it
         inp = self.query_one("#target_queue", Input)
-        inp.value = event.option.prompt
+        # Use the option ID which is the clean queue name
+        inp.value = event.option.id if event.option.id else str(event.option.prompt)
         inp.focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
