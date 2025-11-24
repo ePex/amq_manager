@@ -5,6 +5,10 @@ from textual.containers import Grid, Container, Horizontal
 from amq_manager.config import ConfigManager, ConnectionConfig
 
 class ConnectionEditor(ModalScreen):
+    BINDINGS = [
+        ("escape", "cancel", "Cancel"),
+        ("enter", "save", "Save"),
+    ]
     CSS = """
     ConnectionEditor {
         align: center middle;
@@ -12,7 +16,7 @@ class ConnectionEditor(ModalScreen):
     Grid {
         grid-size: 2;
         grid-gutter: 1 2;
-        grid-rows: auto auto auto auto auto auto auto;
+        grid-rows: auto auto auto auto auto auto auto auto;
         padding: 2;
         width: 60;
         height: auto;
@@ -64,9 +68,19 @@ class ConnectionEditor(ModalScreen):
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "cancel":
-            self.dismiss()
+            self.action_cancel()
         elif event.button.id == "save":
-            self.save_connection()
+            self.action_save()
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        # Pressing Enter in any input field triggers save
+        self.action_save()
+
+    def action_cancel(self) -> None:
+        self.dismiss()
+
+    def action_save(self) -> None:
+        self.save_connection()
 
     def save_connection(self) -> None:
         name = self.query_one("#name", Input).value
