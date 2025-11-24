@@ -15,6 +15,7 @@ class MessageListScreen(Screen):
     BINDINGS = [
         ("escape", "app.pop_screen", "Back"),
         ("/", "toggle_filter", "Filter"),
+        ("r", "refresh", "Refresh"),
         ("space", "toggle_selection", "Select"),
         ("a", "select_all", "Select All"),
         ("n", "clear_selection", "Clear"),
@@ -194,4 +195,8 @@ class MessageListScreen(Screen):
                 self.notify(f"Moved {success_count}/{total} messages")
         
         self.app.push_screen(BatchMoveModal(list(self.selected_messages), self.queue_name), handle_move)
+
+    def action_refresh(self) -> None:
+        self.load_messages()
+        self.notify("Messages refreshed")
 

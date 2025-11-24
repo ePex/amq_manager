@@ -25,3 +25,13 @@ To ensure high quality and maintainability of the `amq-manager` project, please 
 5.  **Commit Protocol**:
     - Wait for user feedback after implementing a feature.
     - Only commit changes if the feedback is positive.
+
+6.  **Bugfix Tracking**:
+    - Document significant bugfixes in the relevant spec file or create a new bugfix entry if needed.
+    - For complex bugs, create a spec file: `%d-yyyy-mm-dd-bugfix-description.md` in the `spec/` directory.
+    - Update `task.md` to track bugfix progress.
+    - Include details about:
+      - The issue/symptom
+      - Root cause
+      - Solution/fix applied
+      - Verification steps
