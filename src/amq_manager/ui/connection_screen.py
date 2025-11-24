@@ -29,6 +29,14 @@ class ConnectionEditor(ModalScreen):
     Checkbox {
         column-span: 2;
     }
+    Horizontal {
+        column-span: 2;
+        height: auto;
+        align: center middle;
+    }
+    Button {
+        margin: 0 1;
+    }
     """
 
     def __init__(self, config: ConnectionConfig = None):
