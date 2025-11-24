@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
-from textual.widgets import Header, Footer, Static, Label
+from textual.widgets import Header, Footer, Static, Label, DataTable
 from textual.containers import Container, VerticalScroll
 from typing import Dict, Any
 from amq_manager.client import ActiveMQClient
@@ -31,18 +31,24 @@ class MessageDetailScreen(Screen):
         yield Header()
         yield VerticalScroll(
             Label("Message Details", classes="header"),
-            Static(f"ID: {self.message.get('JMSMessageID')}", classes="content"),
-            Static(f"Timestamp: {self.message.get('JMSTimestamp')}", classes="content"),
-            Static(f"Type: {self.message.get('JMSType')}", classes="content"),
-            Static(f"Redelivered: {self.message.get('JMSRedelivered')}", classes="content"),
-            
-            Label("Properties", classes="header"),
-            Static(str(self.message), classes="content"), # TODO: Format nicely
+            self.create_properties_table(),
             
             Label("Body", classes="header"),
-            Static(str(self.message.get("Text", "No Text Content")), classes="content"), # Jolokia might return 'Text' or 'Body'
+            Static(str(self.message.get("Text", self.message.get("Body", "No Text Content"))), classes="content"),
         )
         yield Footer()
+
+    def create_properties_table(self) -> DataTable:
+        table = DataTable()
+        table.add_columns("Property", "Value")
+        
+        # Exclude body fields from properties list
+        exclude = {"Text", "Body"}
+        
+        for key, value in self.message.items():
+            if key not in exclude:
+                table.add_row(str(key), str(value))
+        return table
 
     def action_delete_message(self) -> None:
         app = self.app
