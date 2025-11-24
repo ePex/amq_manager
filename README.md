@@ -12,6 +12,7 @@ A Terminal User Interface (TUI) tool for managing ActiveMQ brokers. This tool al
     - **Move**: Move messages from one queue to another (e.g., for reprocessing DLQ messages).
 - **Multi-Connection Support**: Manage and switch between multiple brokers (Local, AWS, etc.) at runtime.
 - **Secure Connections**: Support for HTTPS/SSL connections.
+- **Filtering**: Quickly find queues (by name) or messages (by type) using the `/` hotkey.
 - **Logging**: Built-in log viewer to diagnose issues.
 - **Cross-Platform**: Runs on any system with Python support.
 
@@ -59,9 +60,11 @@ python3 src/amq_manager/main.py
 | **Queue List** | `↑` / `↓` | Navigate Queues |
 | | `Enter` | Open Selected Queue |
 | | `r` | Refresh Queue List |
+| | `/` | **Filter** Queues |
 | **Message List** | `↑` / `↓` | Navigate Messages |
 | | `Enter` | View Message Details |
 | | `Esc` | Back to Queue List |
+| | `/` | **Filter** Messages (by JMSType) |
 | **Message Detail** | `d` | **Delete** Message |
 | | `m` | **Move** Message |
 | | `Esc` | Back to Message List |

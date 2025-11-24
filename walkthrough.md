@@ -25,6 +25,7 @@ I have built a Terminal User Interface (TUI) for managing ActiveMQ brokers.
 - **Navigation**: Use arrow keys to navigate lists.
 - **Select**: Press `Enter` to select a queue or message.
 - **Back**: Press `Esc` to go back.
+- **Filter**: Press `/` to filter queues or messages.
 - **Refresh**: Press `r` to refresh the queue list.
 - **Connections**: Press `c` to open the Connection Manager.
 - **Logs**: Press `l` to open the Log Viewer.

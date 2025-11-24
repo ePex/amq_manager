@@ -33,3 +33,7 @@
     - [x] Update Client to use custom path <!-- id: 22 -->
 - [x] Message Detail Enhancements
     - [x] Display all message headers/properties <!-- id: 23 -->
+- [x] Filtering
+    - [x] Implement Filter Input Widget <!-- id: 24 -->
+    - [x] Add Queue List Filtering (Name) <!-- id: 25 -->
+    - [x] Add Message List Filtering (JMSType) <!-- id: 26 -->

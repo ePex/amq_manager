@@ -71,3 +71,12 @@
 2025-11-24 21:21:38 - __main__ - INFO - Starting ActiveMQ Manager
 2025-11-24 21:21:39 - amq_manager.ui.app - INFO - Refreshed 52 queues
 2025-11-24 21:22:00 - __main__ - INFO - ActiveMQ Manager stopped
+2025-11-24 21:26:39 - __main__ - INFO - Starting ActiveMQ Manager
+2025-11-24 21:26:41 - amq_manager.ui.app - INFO - Refreshed 52 queues
+2025-11-24 21:29:57 - __main__ - INFO - ActiveMQ Manager stopped
+2025-11-24 21:29:58 - __main__ - INFO - Starting ActiveMQ Manager
+2025-11-24 21:29:59 - amq_manager.ui.app - INFO - Refreshed 52 queues
+2025-11-24 21:30:42 - __main__ - INFO - ActiveMQ Manager stopped
+2025-11-24 21:31:19 - __main__ - INFO - Starting ActiveMQ Manager
+2025-11-24 21:31:21 - amq_manager.ui.app - INFO - Refreshed 52 queues
+2025-11-24 21:31:29 - __main__ - INFO - ActiveMQ Manager stopped

@@ -1,6 +1,7 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Static, Label, DataTable
+from textual.binding import Binding
 from textual.containers import Container, VerticalScroll
 from typing import Dict, Any
 from amq_manager.client import ActiveMQClient
@@ -11,6 +12,7 @@ class MessageDetailScreen(Screen):
         ("escape", "app.pop_screen", "Back"),
         ("d", "delete_message", "Delete Message"),
         ("m", "move_message", "Move Message"),
+        Binding("/", "noop", "", show=False),
     ]
     CSS = """
     .header {
@@ -79,3 +81,6 @@ class MessageDetailScreen(Screen):
                 self.notify("Message moved")
 
         self.app.push_screen(MoveMessageModal(msg_id, self.queue_name), check_move)
+
+    def action_noop(self) -> None:
+        pass
