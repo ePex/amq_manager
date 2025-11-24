@@ -6,10 +6,10 @@ A Terminal User Interface (TUI) tool for managing ActiveMQ brokers. This tool al
 
 - **Queue Dashboard**: View all queues with real-time statistics (pending messages, consumers, enqueued/dequeued counts).
 - **Message Browser**: Browse messages within any queue.
-- **Message Inspector**: View full message details, including headers (JMSMessageID, Timestamp, Priority, etc.) and body content.
-- **Management Actions**:
-    - **Delete**: Remove individual messages from a queue.
-    - **Move**: Move messages from one queue to another (e.g., for reprocessing DLQ messages).
+- **Message Inspector**: View full message details, including headers (JMSMessageID, Timestamp, Priority, etc.)
+    - **Browse**: Navigate queues and view messages with full details.
+    - **Delete**: Remove individual or multiple messages from a queue.
+    - **Move**: Move individual or multiple messages from one queue to another (e.g., for reprocessing DLQ messages).
 - **Multi-Connection Support**: Manage and switch between multiple brokers (Local, AWS, etc.) at runtime.
 - **Secure Connections**: Support for HTTPS/SSL connections.
 - **Filtering**: Quickly find queues (by name) or messages (by ID, date, or type) using the `/` hotkey.
@@ -64,7 +64,12 @@ python3 src/amq_manager/main.py
 | **Message List** | `↑` / `↓` | Navigate Messages |
 | | `Enter` | View Message Details |
 | | `Esc` | Back to Queue List |
-| | `/` | **Filter** Messages (by JMSType) |
+| | `/` | **Filter** Messages (by ID, Date, Type) |
+| | `Space` | Toggle message selection |
+| | `a` | Select all messages |
+| | `n` | Clear selections |
+| | `D` | Delete selected messages |
+| | `M` | Move selected messages |
 | **Message Detail** | `d` | **Delete** Message |
 | | `m` | **Move** Message |
 | | `Esc` | Back to Message List |
