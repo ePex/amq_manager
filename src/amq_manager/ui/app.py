@@ -111,6 +111,8 @@ class ActiveMQManagerApp(App):
         self.active_config = config_manager.get_default_connection()
         if self.active_config:
             self.title = f"ActiveMQ Manager - {self.active_config.name}"
+            # Trigger initial queue refresh now that we have a config
+            self.query_one(QueueList).refresh_queues()
         else:
             self.action_manage_connections()
 
