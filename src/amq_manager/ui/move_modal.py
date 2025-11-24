@@ -115,6 +115,12 @@ class MoveMessageModal(ModalScreen):
             self.action_move()
 
     def on_key(self, event) -> None:
+        # Prevent Esc from bubbling to parent screen
+        if event.key == "escape":
+            event.stop()
+            self.action_cancel()
+            return
+        
         # Allow arrow keys to navigate to the suggestion list
         if event.key in ("down", "up") and self.query_one("#target_queue").has_focus:
             option_list = self.query_one("#queue_suggestions", OptionList)

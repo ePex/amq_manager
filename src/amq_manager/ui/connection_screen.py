@@ -83,6 +83,12 @@ class ConnectionEditor(ModalScreen):
     def action_save(self) -> None:
         self.save_connection()
 
+    def on_key(self, event) -> None:
+        # Prevent Esc from bubbling to parent screen
+        if event.key == "escape":
+            event.stop()
+            self.action_cancel()
+
     def save_connection(self) -> None:
         name = self.query_one("#name", Input).value
         host = self.query_one("#host", Input).value
