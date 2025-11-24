@@ -13,6 +13,7 @@ A Terminal User Interface (TUI) tool for managing ActiveMQ brokers. This tool al
 - **Multi-Connection Support**: Manage and switch between multiple brokers (Local, AWS, etc.) at runtime.
 - **Secure Connections**: Support for HTTPS/SSL connections.
 - **Filtering**: Quickly find queues (by name) or messages (by ID, date, or type) using the `/` hotkey.
+- **Queue Autocomplete**: When moving messages, autocomplete suggestions for target queue names.
 - **Logging**: Built-in log viewer to diagnose issues.
 - **Cross-Platform**: Runs on any system with Python support.
 
@@ -81,6 +82,9 @@ python3 src/amq_manager/main.py
 | **Log Viewer** | `l` | Open **Logs** (from Queue List) |
 | | `r` | **Refresh** Logs |
 | | `Esc` | Back to Queue List |
+| **Modals** | `Enter` | Confirm/Save |
+| | `Esc` | Cancel/Close |
+| | `Tab` | Navigate fields |
 
 ## Configuration
 
