@@ -1,0 +1,25 @@
+# ActiveMQ Manager Task List
+
+- [x] Project Initialization
+    - [x] Create `task.md` <!-- id: 0 -->
+    - [x] Create `implementation_plan.md` <!-- id: 1 -->
+    - [x] Research ActiveMQ connection methods (STOMP vs Jolokia) <!-- id: 2 -->
+- [x] Prototype / Proof of Concept
+    - [x] Verify connection to local ActiveMQ (if available) <!-- id: 3 -->
+    - [x] Create basic script to list queues <!-- id: 4 -->
+- [x] Implementation
+    - [x] Scaffold Python project (poetry/pip) <!-- id: 5 -->
+    - [x] Implement TUI with Textual <!-- id: 6 -->
+        - [x] Connection Screen <!-- id: 7 -->
+        - [x] Queue List View <!-- id: 8 -->
+        - [x] Message List View <!-- id: 9 -->
+        - [x] Message Detail View <!-- id: 10 -->
+        - [x] Move/Delete Functionality <!-- id: 11 -->
+- [/] Verification
+    - [x] Test against local broker <!-- id: 12 -->
+    - [ ] Verify AWS compatibility (conceptually or if creds provided) <!-- id: 13 -->
+- [x] Configuration & Multi-Connection Support
+    - [x] Design Configuration Manager (load/save config) <!-- id: 14 -->
+    - [x] Implement Connection Screen (Add/Edit/Select connections) <!-- id: 15 -->
+    - [x] Refactor Client to support dynamic connections <!-- id: 16 -->
+    - [x] Implement Runtime Switching <!-- id: 17 -->
